@@ -1,0 +1,11 @@
+name: MinetopiaID
+main: me.boykev.idbewijs.Main
+author: boykev
+website: https://www.boykevanvugt.nl
+version: 1.0ALFA
+api-version: 1.12
+api: "1.12"
+depend: [NBTAPI]
+commands:
+  idbewijs:
+    description: Main commando voor ID Bewijzen.
