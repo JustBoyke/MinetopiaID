@@ -191,6 +191,37 @@ public class Main extends JavaPlugin{
 				p.getInventory().removeItem(item);
 				return false;
 			}
+			if(args[0].equalsIgnoreCase("vog")) {
+				if(args.length < 2 || args.length > 3) {
+					p.sendMessage(ChatColor.RED + "Je hebt het commando onjuist gebruikt");
+					p.sendMessage(ChatColor.BLUE + "/idbewijs vog <speler> <positief/negatief>");
+					return false;
+				}
+				Player target = Bukkit.getPlayer(args[1]);
+				if(target == null) {
+					p.sendMessage(ChatColor.RED + "Speler is niet gevonden.");
+					return false;
+				}
+				idm = new IdManager(this, target);
+				if(args[2] == null) {
+					p.sendMessage(ChatColor.RED + "Je hebt geen positief of negatief opgegeven.");
+					return false;
+				}
+				ArrayList<String> vogtype = new ArrayList<String>();
+				vogtype.add("positief");
+				vogtype.add("negatief");
+				vogtype.add("Positief");
+				vogtype.add("Negatief");
+				if(!vogtype.contains(args[2])) {
+					p.sendMessage(ChatColor.RED + "Je moet positief of negatief opgeven!");
+					return false;
+				}
+				idm.editConfig().set("vog.status", args[2]);
+				idm.save();
+				p.sendMessage(ChatColor.GREEN + "VOG Status bijgewerkt.");
+				return false;
+				
+			}
 		}
 		
 		return false;

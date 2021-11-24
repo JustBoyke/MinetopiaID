@@ -1,8 +1,11 @@
 package me.boykev.idbewijs;
 
+import java.util.ArrayList;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,6 +13,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -48,6 +52,46 @@ public class ClickEvents implements Listener {
 					ItemStack iditem = idm.getConfig().getItemStack("id." + id + ".iditem");
 					
 					Inventory idbewijs = Bukkit.createInventory(null, 54, ChatColor.GREEN + "ID: " + p.getName());
+					
+					
+					if(cm.getConfig().getString("vog.status") == null) {
+						ItemStack vogitem = new ItemStack(Material.BARRIER);
+						ItemMeta vogmeta = vogitem.getItemMeta();
+						vogmeta.addEnchant(Enchantment.LUCK, 1, false);
+						vogmeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES);
+						ArrayList<String> voglore = new ArrayList<String>();
+						voglore.add(ChatColor.RED + "Nog geen VOG");
+						vogmeta.setLore(voglore);
+						vogmeta.setDisplayName(ChatColor.BLUE + "VOG");
+						idbewijs.setItem(9, vogitem);
+					}
+					if(cm.getConfig().getString("vog.status") != null) {
+						String vogstatus = cm.getConfig().getString("vog.status");
+						if(vogstatus.equalsIgnoreCase("negatief")) {
+							ItemStack vogitem = new ItemStack(Material.PAPER);
+							ItemMeta vogmeta = vogitem.getItemMeta();
+							vogmeta.addEnchant(Enchantment.LUCK, 1, false);
+							vogmeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES);
+							ArrayList<String> voglore = new ArrayList<String>();
+							voglore.add(ChatColor.RED + "Negatief VOG");
+							vogmeta.setLore(voglore);
+							vogmeta.setDisplayName(ChatColor.BLUE + "VOG");
+							idbewijs.setItem(9, vogitem);
+						}
+						if(vogstatus.equalsIgnoreCase("positief")) {
+							ItemStack vogitem = new ItemStack(Material.PAPER);
+							ItemMeta vogmeta = vogitem.getItemMeta();
+							vogmeta.addEnchant(Enchantment.LUCK, 1, false);
+							vogmeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES);
+							ArrayList<String> voglore = new ArrayList<String>();
+							voglore.add(ChatColor.GREEN + "Positief VOG");
+							vogmeta.setLore(voglore);
+							vogmeta.setDisplayName(ChatColor.BLUE + "VOG");
+							idbewijs.setItem(9, vogitem);
+						}
+					}
+					
+					
 					
 					
 					
