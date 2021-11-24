@@ -28,6 +28,12 @@ public class CheckHandler {
 	public void checkID(Player p, Player target) {
 		idm = new IdManager(instance, target);
 		String last = idm.getConfig().getString("last");
+		
+		if(idm.getConfig().getString("id." + last) == null) {
+			p.sendMessage(ChatColor.RED + "Deze speler staat niet ingeschreven bij de gemeente.");
+			return;
+		}
+		
 		String naam = idm.getConfig().getString("id." + last + ".speler");
 		String leeftijd = idm.getConfig().getString("id." + last + ".leeftijd");
 		String geslacht = idm.getConfig().getString("id." + last + ".geslacht");
@@ -145,6 +151,7 @@ public class CheckHandler {
 		}
 		if(idm.getConfig().getString("id." + last + ".vog") != null) {
 			String vogstatus = idm.getConfig().getString("id." + last + ".vog");
+			System.out.println("Heeft VOG Data en passed check 1");
 			if(vogstatus.equalsIgnoreCase("negatief")) {
 				ItemStack vogitem = new ItemStack(Material.PAPER);
 				ItemMeta vogmeta = vogitem.getItemMeta();
@@ -169,7 +176,7 @@ public class CheckHandler {
 				vogitem.setItemMeta(vogmeta);
 				vogcheck2.setItem(4, vogitem);
 			}
-			
+		}
 			ItemStack fill2 = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15);
 			ItemMeta fillm2 = fill.getItemMeta();
 			fillm2.setDisplayName(ChatColor.BLACK + "");
@@ -190,8 +197,5 @@ public class CheckHandler {
 		
 			
 		}
-		
-	}
-	
 	
 }
