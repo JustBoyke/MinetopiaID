@@ -110,8 +110,13 @@ public class CheckHandler {
 		idm = new IdManager(instance, target);
 		String last = idm.getConfig().getString("last");
 		
-		Inventory vogcheck1 = Bukkit.createInventory(null, 9, ChatColor.GREEN + "ID: " + target.getName());
-		Inventory vogcheck2 = Bukkit.createInventory(null, 9, ChatColor.GREEN + "ID: " + target.getName());
+		if(idm.getConfig().getString("id." + last) == null) {
+			p.sendMessage(ChatColor.RED + "Deze speler staat niet ingeschreven bij de gemeente.");
+			return;
+		}
+		
+		Inventory vogcheck1 = Bukkit.createInventory(null, 9, ChatColor.RED + "VOG Data laden...");
+		Inventory vogcheck2 = Bukkit.createInventory(null, 9, ChatColor.GREEN + "VOG: " + target.getName());
 		
 		ItemStack fill = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15);
 		ItemMeta fillm = fill.getItemMeta();
@@ -126,7 +131,7 @@ public class CheckHandler {
 		
 		p.openInventory(vogcheck1);
 		
-		
+	
 		if(idm.getConfig().getString("id." + last + ".vog") == null) {
 			ItemStack vogitem = new ItemStack(Material.BARRIER);
 			ItemMeta vogmeta = vogitem.getItemMeta();
@@ -182,6 +187,7 @@ public class CheckHandler {
 					p.openInventory(vogcheck2);
 				}
 			}.runTaskLater(instance, 6*20);
+		
 			
 		}
 		

@@ -13,7 +13,6 @@ import org.bukkit.craftbukkit.libs.jline.internal.Log;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -97,6 +96,7 @@ public class Main extends JavaPlugin{
 				p.sendMessage(ChatColor.BLUE + "/mtid maak <speler> <leeftijd> <geslacht> <stad> <datum>");
 				p.sendMessage(ChatColor.BLUE + "/mtid addplot <speler> <plot> <soort plot>");
 				p.sendMessage(ChatColor.BLUE + "/mtid check <Speler>");
+				p.sendMessage(ChatColor.BLUE + "/mtid vogcheck <Speler>");
 				p.sendMessage(ChatColor.BLUE + "/mtid VOG <speler> <Postitief/Negatief>");
 				p.sendMessage(ChatColor.BLUE + "/mtid remove <speler>");
 				p.sendMessage(ChatColor.BLUE + "/mtid list");
@@ -267,7 +267,7 @@ public class Main extends JavaPlugin{
 					p.sendMessage(ChatColor.BLUE + "/mtid check <speler>");
 					return false;
 				}
-				if(!p.hasPermission("idbewijs.vog")) {
+				if(!p.hasPermission("idbewijs.check")) {
 					p.sendMessage(ChatColor.RED + "Sorry, je hebt niet de benodigde permissies");
 					p.sendTitle(ChatColor.RED + "Error!", ChatColor.WHITE + "Je hebt niet de juiste perms!", 10, 60, 10);
 					p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 100, 1);
