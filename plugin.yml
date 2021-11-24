@@ -2,7 +2,7 @@ name: MinetopiaID
 main: me.boykev.idbewijs.Main
 author: boykev
 website: https://www.boykevanvugt.nl
-version: 1.1BETA
+version: 1.2BETA
 api-version: 1.12
 api: "1.12"
 depend: [NBTAPI]
