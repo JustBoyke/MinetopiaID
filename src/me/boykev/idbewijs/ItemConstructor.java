@@ -33,11 +33,13 @@ public class ItemConstructor {
 		String geslacht = idm.getConfig().getString("id." + last + ".geslacht");
 		String stad = idm.getConfig().getString("id." + last + ".stad");
 		String datum = idm.getConfig().getString("id." + last + ".datum");
+		String uitgever = idm.getConfig().getString("id." + last + ".uitgever");
 		lore.add(ChatColor.BLUE + "Naam: " + speler);
 		lore.add(ChatColor.BLUE + "Leeftijd: " + leeftijd);
 		lore.add(ChatColor.BLUE + "Geslacht: " + geslacht);
 		lore.add(ChatColor.BLUE + "Stad: " + stad);
 		lore.add(ChatColor.BLUE + "Datum uitgifte: " + datum);
+		lore.add(ChatColor.BLUE + "Uitgegeven door: " + uitgever);
 		im.setLore(lore);
 		im.setOwningPlayer(p);
 		i.setItemMeta(im);

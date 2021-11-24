@@ -53,10 +53,9 @@ public class ClickEvents implements Listener {
 					Inventory idbewijs = Bukkit.createInventory(null, 27, ChatColor.GREEN + "ID: " + p.getName());
 					
 					
-					if(idm.getConfig().getString("vog.status") == null) {
+					if(idm.getConfig().getString("id." + last + ".vog") == null) {
 						ItemStack vogitem = new ItemStack(Material.BARRIER);
 						ItemMeta vogmeta = vogitem.getItemMeta();
-						vogmeta.addEnchant(Enchantment.LUCK, 1, false);
 						vogmeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES);
 						ArrayList<String> voglore = new ArrayList<String>();
 						voglore.add(ChatColor.RED + "Nog geen VOG");
@@ -65,8 +64,8 @@ public class ClickEvents implements Listener {
 						vogitem.setItemMeta(vogmeta);
 						idbewijs.setItem(9, vogitem);
 					}
-					if(idm.getConfig().getString("vog.status") != null) {
-						String vogstatus = idm.getConfig().getString("vog.status");
+					if(idm.getConfig().getString("id." + last + ".vog") != null) {
+						String vogstatus = idm.getConfig().getString("id." + last + ".vog");
 						if(vogstatus.equalsIgnoreCase("negatief")) {
 							ItemStack vogitem = new ItemStack(Material.PAPER);
 							ItemMeta vogmeta = vogitem.getItemMeta();

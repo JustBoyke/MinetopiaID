@@ -13,6 +13,7 @@ import org.bukkit.craftbukkit.libs.jline.internal.Log;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -251,12 +252,64 @@ public class Main extends JavaPlugin{
 					p.sendMessage(ChatColor.RED + "Je moet positief of negatief opgeven!");
 					return false;
 				}
-				idm.editConfig().set("vog.status", args[2]);
+				String last = idm.getConfig().getString("last");
+				idm.editConfig().set("id." + last + ".vog", args[2]);
 				idm.save();
 				p.sendMessage(ChatColor.GREEN + "VOG Status bijgewerkt.");
 				return false;
 				
 			}
+			
+			if(args[0].equalsIgnoreCase("check")) {
+				if(args.length < 2 || args.length > 3) {
+					p.sendMessage(ChatColor.RED + "Je hebt het commando onjuist gebruikt");
+					p.sendMessage(ChatColor.BLUE + "/mtid check <speler>");
+					return false;
+				}
+				if(!p.hasPermission("idbewijs.vog")) {
+					p.sendMessage(ChatColor.RED + "Sorry, je hebt niet de benodigde permissies");
+					p.sendTitle(ChatColor.RED + "Error!", ChatColor.WHITE + "Je hebt niet de juiste perms!", 10, 60, 10);
+					p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 100, 1);
+					return false;
+				}
+				
+				Player target = Bukkit.getPlayer(args[1]);
+				if(target == null) {
+					p.sendMessage(ChatColor.RED + "Speler is niet gevonden.");
+					return false;
+				}
+				idm = new IdManager(this, target);
+				String last = idm.getConfig().getString("last");
+				String naam = idm.getConfig().getString("id." + last + ".speler");
+				String leeftijd = idm.getConfig().getString("id." + last + ".leeftijd");
+				String geslacht = idm.getConfig().getString("id." + last + ".geslacht");
+				String stad = idm.getConfig().getString("id." + last + ".stad");
+				String datum = idm.getConfig().getString("id." + last + ".datum");
+				String uitgever = idm.getConfig().getString("id." + last + ".uitgever");
+				ItemStack iditem = idm.getConfig().getItemStack("id." + last + ".iditem");
+				p.sendMessage(ChatColor.BLUE + "--- [ ID " + naam + " ] ---");
+				p.sendMessage(ChatColor.GREEN + "Leeftijd: " + ChatColor.DARK_GREEN + leeftijd);
+				p.sendMessage(ChatColor.GREEN + "Geslacht: " + ChatColor.DARK_GREEN + geslacht);
+				p.sendMessage(ChatColor.GREEN + "Stad: " + ChatColor.DARK_GREEN + stad);
+				p.sendMessage(ChatColor.GREEN + "Uitgifte Datum: " + ChatColor.DARK_GREEN + datum);
+				p.sendMessage(ChatColor.GREEN + "Uitgegeven door: " + ChatColor.DARK_GREEN + uitgever);
+				Inventory idbewijs = Bukkit.createInventory(null, 9, ChatColor.GREEN + "ID: " + p.getName());
+				ItemStack fill = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15);
+				ItemMeta fillm = fill.getItemMeta();
+				fillm.setDisplayName(ChatColor.BLACK + "");
+				fill.setItemMeta(fillm);
+				for(int slot = 0; slot <= 3; slot++) {
+					idbewijs.setItem(slot, fill);
+				}
+				for(int slot = 5; slot <= 8; slot++) {
+					idbewijs.setItem(slot, fill);
+				}
+				idbewijs.setItem(4, iditem);
+				p.openInventory(idbewijs);
+				
+				
+			}
+			
 		}
 		
 		if(cmd.getName().equalsIgnoreCase("minetopiaid")) {
