@@ -163,7 +163,7 @@ public class Main extends JavaPlugin{
 				ItemStack iditem = new ItemStack(Material.BOOK, 1);
 				NBTItem nbti = new NBTItem(iditem);
 				ItemMeta idmeta = nbti.getItem().getItemMeta();
-				idmeta.setDisplayName("ID: " + p.getName());
+				idmeta.setDisplayName("ID: " + target.getName());
 				ArrayList<String> lore = new ArrayList<String>();
 				lore.add(ChatColor.DARK_PURPLE + "Officieel Minetopia ID");
 				idmeta.setLore(lore);
@@ -304,6 +304,75 @@ public class Main extends JavaPlugin{
 				//open handler check
 				ch = new CheckHandler(this);
 				ch.checkVOG(p, target);
+			}
+			if(args[0].equalsIgnoreCase("addplot")) {
+				if(args.length < 3 || args.length > 4) {
+					p.sendMessage(ChatColor.RED + "Je hebt het commando onjuist gebruikt");
+					p.sendMessage(ChatColor.BLUE + "/mtid addplot <speler> <plot> <soort plot>");
+					return false;
+				}
+				if(!p.hasPermission("idbewijs.addplot")) {
+					p.sendMessage(ChatColor.RED + "Sorry, je hebt niet de benodigde permissies");
+					p.sendTitle(ChatColor.RED + "Error!", ChatColor.WHITE + "Je hebt niet de juiste perms!", 10, 60, 10);
+					p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 100, 1);
+					return false;
+				}
+				Player target = Bukkit.getPlayer(args[1]);
+				if(target == null) {
+					p.sendMessage(ChatColor.RED + "Speler is niet gevonden.");
+					return false;
+				}
+				idm = new IdManager(this, target);
+				String plotnr = args[2];
+				if(plotnr == null) {
+					p.sendMessage(ChatColor.RED + "Je hebt geen plot opgegeven");
+					return false;
+				}
+				if(idm.getConfig().getConfigurationSection("plots." + plotnr) != null) {
+					p.sendMessage(ChatColor.RED + "Dit plot staat al op naam van deze speler!");
+					return false;
+				}
+				String plotinfo = args[3];
+				if(plotinfo == null) {
+					p.sendMessage(ChatColor.RED + "Je hebt geen plot type opgegeven");
+					return false;
+				}
+				idm.editConfig().set("plots." + plotnr + ".plot", plotnr);
+				idm.editConfig().set("plots." + plotnr + ".type", plotinfo);
+				idm.save();
+				p.sendMessage(ChatColor.GREEN + "Plot toegevoegd aan speler.");
+			}
+			if(args[0].equalsIgnoreCase("removeplot")) {
+				if(args.length < 2 || args.length > 3) {
+					p.sendMessage(ChatColor.RED + "Je hebt het commando onjuist gebruikt");
+					p.sendMessage(ChatColor.BLUE + "/mtid removeplot <speler> <plot>");
+					return false;
+				}
+				if(!p.hasPermission("idbewijs.removeplot")) {
+					p.sendMessage(ChatColor.RED + "Sorry, je hebt niet de benodigde permissies");
+					p.sendTitle(ChatColor.RED + "Error!", ChatColor.WHITE + "Je hebt niet de juiste perms!", 10, 60, 10);
+					p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 100, 1);
+					return false;
+				}
+				Player target = Bukkit.getPlayer(args[1]);
+				if(target == null) {
+					p.sendMessage(ChatColor.RED + "Speler is niet gevonden.");
+					return false;
+				}
+				idm = new IdManager(this, target);
+				String plotnr = args[2];
+				if(plotnr == null) {
+					p.sendMessage(ChatColor.RED + "Je hebt geen plot opgegeven");
+					return false;
+				}
+				if(idm.getConfig().getConfigurationSection("plots." + plotnr) == null) {
+					p.sendMessage(ChatColor.RED + "Deze speler heeft dit plot niet in zijn lijst staan!");
+					return false;
+				}
+				
+				idm.editConfig().set("plots." + plotnr, null);
+				idm.save();
+				p.sendMessage(ChatColor.RED + "Plot verwijderd van speler.");
 			}
 			
 		}

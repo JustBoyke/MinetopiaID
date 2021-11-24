@@ -24,6 +24,7 @@ public class ClickEvents implements Listener {
 	private Main instance;
 	public ConfigManager cm;
 	public IdManager idm;
+	public PlotsMenu plots;
 	
 
 	public ClickEvents(Main main) {
@@ -62,7 +63,7 @@ public class ClickEvents implements Listener {
 						vogmeta.setLore(voglore);
 						vogmeta.setDisplayName(ChatColor.BLUE + "VOG");
 						vogitem.setItemMeta(vogmeta);
-						idbewijs.setItem(9, vogitem);
+						idbewijs.setItem(10, vogitem);
 					}
 					if(idm.getConfig().getString("id." + last + ".vog") != null) {
 						String vogstatus = idm.getConfig().getString("id." + last + ".vog");
@@ -76,7 +77,7 @@ public class ClickEvents implements Listener {
 							vogmeta.setLore(voglore);
 							vogmeta.setDisplayName(ChatColor.BLUE + "VOG");
 							vogitem.setItemMeta(vogmeta);
-							idbewijs.setItem(9, vogitem);
+							idbewijs.setItem(10, vogitem);
 						}
 						if(vogstatus.equalsIgnoreCase("positief")) {
 							ItemStack vogitem = new ItemStack(Material.PAPER);
@@ -88,7 +89,7 @@ public class ClickEvents implements Listener {
 							vogmeta.setLore(voglore);
 							vogmeta.setDisplayName(ChatColor.BLUE + "VOG");
 							vogitem.setItemMeta(vogmeta);
-							idbewijs.setItem(9, vogitem);
+							idbewijs.setItem(10, vogitem);
 						}
 					}
 					
@@ -122,11 +123,20 @@ public class ClickEvents implements Listener {
 						}
 					}
 					
+					ItemStack ploti = new ItemStack(Material.BIRCH_DOOR_ITEM);
+					ItemMeta plotme = ploti.getItemMeta();
+					plotme.setDisplayName(ChatColor.BLUE + "Plots");
+					ArrayList<String> plotlore = new ArrayList<String>();
+					plotlore.add(ChatColor.DARK_PURPLE + "Bekijk Plots");
+					plotme.setLore(plotlore);
+					ploti.setItemMeta(plotme);
 					
+					
+					idbewijs.setItem(12, ploti);
 					idbewijs.setItem(4, iditem);
 					
 					
-					p.openInventory(idbewijs);
+					e.getPlayer().openInventory(idbewijs);
 				}
 				return;
 			}
@@ -140,7 +150,30 @@ public class ClickEvents implements Listener {
 	public void onInventory(InventoryClickEvent e) {
 		String inv = e.getInventory().getName();
 		cm = new ConfigManager(instance);
+		Player p = (Player) e.getWhoClicked();
+		if(inv.contains(ChatColor.GREEN + "ID CHECK:")) {
+			plots = new PlotsMenu(instance);
+			e.setCancelled(true);
+			if(e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.BLUE + "Plots")) {
+				String speler = inv.replace(ChatColor.GREEN + "ID CHECK: ", "");
+				if(Bukkit.getPlayer(speler) == null) {
+					return;
+				}
+				plots.plotMenu(p, Bukkit.getPlayer(speler));
+			}
+		}
 		if(inv.contains(ChatColor.GREEN + "ID: ")) {
+			plots = new PlotsMenu(instance);
+			e.setCancelled(true);
+			if(e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.BLUE + "Plots")) {
+				String speler = inv.replace(ChatColor.GREEN + "ID: ", "");
+				if(Bukkit.getPlayer(speler) == null) {
+					return;
+				}
+				plots.plotMenu(p, Bukkit.getPlayer(speler));
+			}
+		}
+		if(inv.contains(ChatColor.GREEN + "PLOTS: ")) {
 			e.setCancelled(true);
 		}
 		if(inv.equalsIgnoreCase(ChatColor.RED + "VOG Data laden...")) {

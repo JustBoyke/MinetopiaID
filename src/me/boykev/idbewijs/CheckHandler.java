@@ -48,7 +48,7 @@ public class CheckHandler {
 		p.sendMessage(ChatColor.GREEN + "Uitgifte Datum: " + ChatColor.DARK_GREEN + datum);
 		p.sendMessage(ChatColor.GREEN + "Uitgegeven door: " + ChatColor.DARK_GREEN + uitgever);
 		
-		Inventory idbewijs = Bukkit.createInventory(null, 27, ChatColor.GREEN + "ID: " + target.getName());
+		Inventory idbewijs = Bukkit.createInventory(null, 27, ChatColor.GREEN + "ID CHECK: " + target.getName());
 		
 		
 		if(idm.getConfig().getString("id." + last + ".vog") == null) {
@@ -60,7 +60,7 @@ public class CheckHandler {
 			vogmeta.setLore(voglore);
 			vogmeta.setDisplayName(ChatColor.BLUE + "VOG");
 			vogitem.setItemMeta(vogmeta);
-			idbewijs.setItem(9, vogitem);
+			idbewijs.setItem(10, vogitem);
 		}
 		if(idm.getConfig().getString("id." + last + ".vog") != null) {
 			String vogstatus = idm.getConfig().getString("id." + last + ".vog");
@@ -74,7 +74,7 @@ public class CheckHandler {
 				vogmeta.setLore(voglore);
 				vogmeta.setDisplayName(ChatColor.BLUE + "VOG");
 				vogitem.setItemMeta(vogmeta);
-				idbewijs.setItem(9, vogitem);
+				idbewijs.setItem(10, vogitem);
 			}
 			if(vogstatus.equalsIgnoreCase("positief")) {
 				ItemStack vogitem = new ItemStack(Material.PAPER);
@@ -86,7 +86,7 @@ public class CheckHandler {
 				vogmeta.setLore(voglore);
 				vogmeta.setDisplayName(ChatColor.BLUE + "VOG");
 				vogitem.setItemMeta(vogmeta);
-				idbewijs.setItem(9, vogitem);
+				idbewijs.setItem(10, vogitem);
 			}
 		}
 		
@@ -102,9 +102,18 @@ public class CheckHandler {
 			idbewijs.setItem(slot, fill);
 		}
 		
+		ItemStack ploti = new ItemStack(Material.BIRCH_DOOR_ITEM);
+		ItemMeta plotme = ploti.getItemMeta();
+		plotme.setDisplayName(ChatColor.BLUE + "Plots");
+		ArrayList<String> plotlore = new ArrayList<String>();
+		plotlore.add(ChatColor.DARK_PURPLE + "Bekijk Plots");
+		plotme.setLore(plotlore);
+		ploti.setItemMeta(plotme);
+		
 		
 		
 		idbewijs.setItem(4, iditem);
+		idbewijs.setItem(12, ploti);
 		
 		
 		
