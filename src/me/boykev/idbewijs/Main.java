@@ -89,21 +89,21 @@ public class Main extends JavaPlugin{
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		Player p = (Player) sender;
 		ic = new ItemConstructor(this);
-		if(cmd.getName().equalsIgnoreCase("idbewijs")) {
+		if(cmd.getName().equalsIgnoreCase("mtid")) {
 			if(args.length < 1) {
 				p.sendMessage(ChatColor.RED + "Je hebt het commando onjuist gebruikt");
-				p.sendMessage(ChatColor.BLUE + "/idbewijs maak <speler> <leeftijd> <geslacht> <stad> <datum>");
-				p.sendMessage(ChatColor.BLUE + "/idbewijs addplot <speler> <plot> <soort plot>");
-				p.sendMessage(ChatColor.BLUE + "/idbewijs check <Speler>");
-				p.sendMessage(ChatColor.BLUE + "/idbewijs VOG <speler> <Postitief/Negatief>");
-				p.sendMessage(ChatColor.BLUE + "/idbewijs remove <speler>");
-				p.sendMessage(ChatColor.BLUE + "/idbewijs list");
+				p.sendMessage(ChatColor.BLUE + "/mtid maak <speler> <leeftijd> <geslacht> <stad> <datum>");
+				p.sendMessage(ChatColor.BLUE + "/mtid addplot <speler> <plot> <soort plot>");
+				p.sendMessage(ChatColor.BLUE + "/mtid check <Speler>");
+				p.sendMessage(ChatColor.BLUE + "/mtid VOG <speler> <Postitief/Negatief>");
+				p.sendMessage(ChatColor.BLUE + "/mtid remove <speler>");
+				p.sendMessage(ChatColor.BLUE + "/mtid list");
 				return false;
 			}
 			if(args[0].equalsIgnoreCase("maak")) {
 				if(args.length < 5 || args.length > 6) {
 					p.sendMessage(ChatColor.RED + "Je hebt het commando onjuist gebruikt");
-					p.sendMessage(ChatColor.BLUE + "/idbewijs maak <speler> <leeftijd> <geslacht> <stad> <datum>");
+					p.sendMessage(ChatColor.BLUE + "/mtid maak <speler> <leeftijd> <geslacht> <stad> <datum>");
 					return false;
 				}
 				
@@ -154,6 +154,7 @@ public class Main extends JavaPlugin{
 				idm.editConfig().set("id." + uuid.toString() + ".geslacht", sex);
 				idm.editConfig().set("id." + uuid.toString() + ".stad", city);
 				idm.editConfig().set("id." + uuid.toString() + ".datum", datum);
+				idm.editConfig().set("id." + uuid.toString() + ".uitgever", p.getName().toString());
 				idm.editConfig().set("last", uuid.toString());
 				idm.save();
 				p.sendMessage(ChatColor.GREEN + target.getName() + " heeft een ID Gekregen");
@@ -187,6 +188,10 @@ public class Main extends JavaPlugin{
 					p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 100, 1);
 					return false;
 				}
+				if(!item.hasItemMeta()) {
+					p.sendMessage(ChatColor.RED + "Je hebt geen ID in je hand.");
+					return false;
+				}
 				
 				ItemMeta im = item.getItemMeta();
 				if(!im.getDisplayName().contains("ID: ")) {
@@ -216,7 +221,7 @@ public class Main extends JavaPlugin{
 			if(args[0].equalsIgnoreCase("vog")) {
 				if(args.length < 2 || args.length > 3) {
 					p.sendMessage(ChatColor.RED + "Je hebt het commando onjuist gebruikt");
-					p.sendMessage(ChatColor.BLUE + "/idbewijs vog <speler> <positief/negatief>");
+					p.sendMessage(ChatColor.BLUE + "/mtid vog <speler> <positief/negatief>");
 					return false;
 				}
 				
