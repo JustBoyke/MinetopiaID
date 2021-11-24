@@ -34,6 +34,7 @@ public class Main extends JavaPlugin{
 	public ConfigManager cm;
 	public IdManager idm;
 	public ItemConstructor ic;
+	public CheckHandler ch;
 	
 	
 	public void onEnable() {
@@ -278,36 +279,31 @@ public class Main extends JavaPlugin{
 					p.sendMessage(ChatColor.RED + "Speler is niet gevonden.");
 					return false;
 				}
-				idm = new IdManager(this, target);
-				String last = idm.getConfig().getString("last");
-				String naam = idm.getConfig().getString("id." + last + ".speler");
-				String leeftijd = idm.getConfig().getString("id." + last + ".leeftijd");
-				String geslacht = idm.getConfig().getString("id." + last + ".geslacht");
-				String stad = idm.getConfig().getString("id." + last + ".stad");
-				String datum = idm.getConfig().getString("id." + last + ".datum");
-				String uitgever = idm.getConfig().getString("id." + last + ".uitgever");
-				ItemStack iditem = idm.getConfig().getItemStack("id." + last + ".iditem");
-				p.sendMessage(ChatColor.BLUE + "--- [ ID " + naam + " ] ---");
-				p.sendMessage(ChatColor.GREEN + "Leeftijd: " + ChatColor.DARK_GREEN + leeftijd);
-				p.sendMessage(ChatColor.GREEN + "Geslacht: " + ChatColor.DARK_GREEN + geslacht);
-				p.sendMessage(ChatColor.GREEN + "Stad: " + ChatColor.DARK_GREEN + stad);
-				p.sendMessage(ChatColor.GREEN + "Uitgifte Datum: " + ChatColor.DARK_GREEN + datum);
-				p.sendMessage(ChatColor.GREEN + "Uitgegeven door: " + ChatColor.DARK_GREEN + uitgever);
-				Inventory idbewijs = Bukkit.createInventory(null, 9, ChatColor.GREEN + "ID: " + p.getName());
-				ItemStack fill = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15);
-				ItemMeta fillm = fill.getItemMeta();
-				fillm.setDisplayName(ChatColor.BLACK + "");
-				fill.setItemMeta(fillm);
-				for(int slot = 0; slot <= 3; slot++) {
-					idbewijs.setItem(slot, fill);
+				//open handler check
+				ch = new CheckHandler(this);
+				ch.checkID(p, target);
+			}
+			if(args[0].equalsIgnoreCase("vogcheck")) {
+				if(args.length < 2 || args.length > 3) {
+					p.sendMessage(ChatColor.RED + "Je hebt het commando onjuist gebruikt");
+					p.sendMessage(ChatColor.BLUE + "/mtid vogcheck <speler>");
+					return false;
 				}
-				for(int slot = 5; slot <= 8; slot++) {
-					idbewijs.setItem(slot, fill);
+				if(!p.hasPermission("idbewijs.vogcheck")) {
+					p.sendMessage(ChatColor.RED + "Sorry, je hebt niet de benodigde permissies");
+					p.sendTitle(ChatColor.RED + "Error!", ChatColor.WHITE + "Je hebt niet de juiste perms!", 10, 60, 10);
+					p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 100, 1);
+					return false;
 				}
-				idbewijs.setItem(4, iditem);
-				p.openInventory(idbewijs);
 				
-				
+				Player target = Bukkit.getPlayer(args[1]);
+				if(target == null) {
+					p.sendMessage(ChatColor.RED + "Speler is niet gevonden.");
+					return false;
+				}
+				//open handler check
+				ch = new CheckHandler(this);
+				ch.checkVOG(p, target);
 			}
 			
 		}

@@ -143,6 +143,9 @@ public class ClickEvents implements Listener {
 		if(inv.contains(ChatColor.GREEN + "ID: ")) {
 			e.setCancelled(true);
 		}
+		if(inv.contains(ChatColor.GREEN + "VOG: ")) {
+			e.setCancelled(true);
+		}
 	}
 
 }
