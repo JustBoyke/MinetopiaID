@@ -50,8 +50,7 @@ public class ClickEvents implements Listener {
 					
 					
 					ItemStack iditem = idm.getConfig().getItemStack("id." + id + ".iditem");
-					
-					Inventory idbewijs = Bukkit.createInventory(null, 54, ChatColor.GREEN + "ID: " + p.getName());
+					Inventory idbewijs = Bukkit.createInventory(null, 27, ChatColor.GREEN + "ID: " + p.getName());
 					
 					
 					if(idm.getConfig().getString("vog.status") == null) {
