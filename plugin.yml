@@ -11,3 +11,5 @@ commands:
     description: Main commando voor ID Bewijzen.
   debug:
     description: Debug command for boykev.
+  minetopiaid:
+    description: Main plugin command.

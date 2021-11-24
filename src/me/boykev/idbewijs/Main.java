@@ -22,6 +22,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import de.tr7zw.nbtapi.NBTItem;
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 
 public class Main extends JavaPlugin{
 	
@@ -247,6 +251,38 @@ public class Main extends JavaPlugin{
 				p.sendMessage(ChatColor.GREEN + "VOG Status bijgewerkt.");
 				return false;
 				
+			}
+		}
+		
+		if(cmd.getName().equalsIgnoreCase("minetopiaid")) {
+			if(args.length > 0) {
+				if(args[0].equalsIgnoreCase("pling")) {
+					p.playSound(p.getLocation(), Sound.BLOCK_NOTE_HARP, 100F, 0.3F);
+					return false;
+				}
+			}
+			PluginDescriptionFile pdf = this.getDescription();
+			
+	        TextComponent component = new TextComponent(TextComponent.fromLegacyText(ChatColor.GREEN + "Developer: Boyke (boykev)"));
+	        component.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://twitch.tv/gewoonboyke"));
+	        
+	        TextComponent version = new TextComponent(TextComponent.fromLegacyText(ChatColor.GREEN + "Versie: " + pdf.getVersion()));
+	        version.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/minetopiaid pling"));
+	       
+			
+			p.sendMessage(ChatColor.GRAY + "---- [ MinetopaID Items ] ----");
+			p.spigot().sendMessage(version);
+			p.spigot().sendMessage(component);
+			p.sendMessage(ChatColor.GREEN + "Website: https://boykevanvugt.nl");
+			if(lic.getLicense().equalsIgnoreCase("Valid")) {
+				TextComponent license = new TextComponent(TextComponent.fromLegacyText(ChatColor.GREEN + "Licentie: Valid!"));
+		        license.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Deze licentie is actief en geverrifieerd").create()));
+		        p.spigot().sendMessage(license);
+			}else {
+				TextComponent license = new TextComponent(TextComponent.fromLegacyText(ChatColor.RED + "Licentie: Valid!"));
+		        license.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Deze licentie is geblokkeerd of niet actief!").create()));
+		        p.spigot().sendMessage(license);
+		        p.playSound(p.getLocation(), Sound.ITEM_TOTEM_USE, 100F,1.0F);
 			}
 		}
 		
