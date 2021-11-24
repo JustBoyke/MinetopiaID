@@ -32,7 +32,7 @@ public class ClickEvents implements Listener {
 	
 	@EventHandler
 	public void onClick(PlayerInteractEvent e) {
-		if(e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_AIR) {
+		if(e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.LEFT_CLICK_BLOCK) {
 			if(e.getItem().hasItemMeta()) {
 				ItemStack i = e.getItem();
 				if(i.getItemMeta().getLore().contains(ChatColor.DARK_PURPLE + "Officieel Minetopia ID")) {
@@ -54,7 +54,7 @@ public class ClickEvents implements Listener {
 					Inventory idbewijs = Bukkit.createInventory(null, 54, ChatColor.GREEN + "ID: " + p.getName());
 					
 					
-					if(cm.getConfig().getString("vog.status") == null) {
+					if(idm.getConfig().getString("vog.status") == null) {
 						ItemStack vogitem = new ItemStack(Material.BARRIER);
 						ItemMeta vogmeta = vogitem.getItemMeta();
 						vogmeta.addEnchant(Enchantment.LUCK, 1, false);
@@ -63,10 +63,11 @@ public class ClickEvents implements Listener {
 						voglore.add(ChatColor.RED + "Nog geen VOG");
 						vogmeta.setLore(voglore);
 						vogmeta.setDisplayName(ChatColor.BLUE + "VOG");
+						vogitem.setItemMeta(vogmeta);
 						idbewijs.setItem(9, vogitem);
 					}
-					if(cm.getConfig().getString("vog.status") != null) {
-						String vogstatus = cm.getConfig().getString("vog.status");
+					if(idm.getConfig().getString("vog.status") != null) {
+						String vogstatus = idm.getConfig().getString("vog.status");
 						if(vogstatus.equalsIgnoreCase("negatief")) {
 							ItemStack vogitem = new ItemStack(Material.PAPER);
 							ItemMeta vogmeta = vogitem.getItemMeta();
@@ -76,6 +77,7 @@ public class ClickEvents implements Listener {
 							voglore.add(ChatColor.RED + "Negatief VOG");
 							vogmeta.setLore(voglore);
 							vogmeta.setDisplayName(ChatColor.BLUE + "VOG");
+							vogitem.setItemMeta(vogmeta);
 							idbewijs.setItem(9, vogitem);
 						}
 						if(vogstatus.equalsIgnoreCase("positief")) {
@@ -87,6 +89,7 @@ public class ClickEvents implements Listener {
 							voglore.add(ChatColor.GREEN + "Positief VOG");
 							vogmeta.setLore(voglore);
 							vogmeta.setDisplayName(ChatColor.BLUE + "VOG");
+							vogitem.setItemMeta(vogmeta);
 							idbewijs.setItem(9, vogitem);
 						}
 					}

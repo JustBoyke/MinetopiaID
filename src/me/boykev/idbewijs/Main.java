@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.libs.jline.internal.Log;
@@ -100,6 +101,14 @@ public class Main extends JavaPlugin{
 					p.sendMessage(ChatColor.BLUE + "/idbewijs maak <speler> <leeftijd> <geslacht> <stad> <datum>");
 					return false;
 				}
+				
+				if(!p.hasPermission("idbewijs.maak")) {
+					p.sendMessage(ChatColor.RED + "Sorry, je hebt niet de benodigde permissies");
+					p.sendTitle(ChatColor.RED + "Error!", ChatColor.WHITE + "Je hebt niet de juiste perms!", 10, 60, 10);
+					p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 100, 1);
+					return false;
+				}
+				
 				Player target = Bukkit.getPlayer(args[1]);
 				if(target == null) {
 					p.sendMessage(ChatColor.RED + "Deze speler is niet gevonden.");
@@ -166,6 +175,14 @@ public class Main extends JavaPlugin{
 					p.sendMessage(ChatColor.RED + "Je hebt geen ID in je hand.");
 					return false;
 				}
+				
+				if(!p.hasPermission("idbewijs.remove")) {
+					p.sendMessage(ChatColor.RED + "Sorry, je hebt niet de benodigde permissies");
+					p.sendTitle(ChatColor.RED + "Error!", ChatColor.WHITE + "Je hebt niet de juiste perms!", 10, 60, 10);
+					p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 100, 1);
+					return false;
+				}
+				
 				ItemMeta im = item.getItemMeta();
 				if(!im.getDisplayName().contains("ID: ")) {
 					p.sendMessage(ChatColor.RED + "Je hebt geen ID in je hand.");
@@ -197,6 +214,14 @@ public class Main extends JavaPlugin{
 					p.sendMessage(ChatColor.BLUE + "/idbewijs vog <speler> <positief/negatief>");
 					return false;
 				}
+				
+				if(!p.hasPermission("idbewijs.vog")) {
+					p.sendMessage(ChatColor.RED + "Sorry, je hebt niet de benodigde permissies");
+					p.sendTitle(ChatColor.RED + "Error!", ChatColor.WHITE + "Je hebt niet de juiste perms!", 10, 60, 10);
+					p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 100, 1);
+					return false;
+				}
+				
 				Player target = Bukkit.getPlayer(args[1]);
 				if(target == null) {
 					p.sendMessage(ChatColor.RED + "Speler is niet gevonden.");
