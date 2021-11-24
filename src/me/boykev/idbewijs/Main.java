@@ -49,6 +49,7 @@ public class Main extends JavaPlugin{
 	    	if(lic.getLicense().equalsIgnoreCase("Valid")) {
 	    		System.out.println(ChatColor.GREEN + plname + " plugin opgestart!");
 	    		pm.registerEvents(new ClickEvents(this), this);
+	    		getCommand("debug").setExecutor(new licenseInfo(this));
 	    	}
 	    	if(lic.getLicense().equalsIgnoreCase("Abuse")) {
 	    		Bukkit.broadcastMessage(ChatColor.YELLOW + "Deze server abused de " + plname + "!");
