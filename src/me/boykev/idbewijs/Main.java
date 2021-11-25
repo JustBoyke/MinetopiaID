@@ -34,6 +34,7 @@ public class Main extends JavaPlugin{
 	public IdManager idm;
 	public ItemConstructor ic;
 	public CheckHandler ch;
+	public MessageManager mes;
 	
 	
 	public void onEnable() {
@@ -42,6 +43,8 @@ public class Main extends JavaPlugin{
 		PluginManager pm = Bukkit.getServer().getPluginManager();
 		cm = new ConfigManager(this);
 		cm.LoadDefaults();
+		mes = new MessageManager(this);
+		mes.LoadDefaults();
 		if(cm.getConfig().getString("key").equals("-")) {
 			lic = new licenseInfo(this);
 			String plname = pdf.getName();
@@ -90,28 +93,29 @@ public class Main extends JavaPlugin{
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		Player p = (Player) sender;
 		ic = new ItemConstructor(this);
+		mes = new MessageManager(this);
 		if(cmd.getName().equalsIgnoreCase("mtid")) {
 			if(args.length < 1) {
 				p.sendMessage(ChatColor.RED + "Je hebt het commando onjuist gebruikt");
 				p.sendMessage(ChatColor.BLUE + "/mtid maak <speler> <leeftijd> <geslacht> <stad> <datum>");
 				p.sendMessage(ChatColor.BLUE + "/mtid addplot <speler> <plot> <soort plot>");
 				p.sendMessage(ChatColor.BLUE + "/mtid check <Speler>");
+				p.sendMessage(ChatColor.BLUE + "/mtid open <Speler>");
 				p.sendMessage(ChatColor.BLUE + "/mtid vogcheck <Speler>");
 				p.sendMessage(ChatColor.BLUE + "/mtid VOG <speler> <Postitief/Negatief>");
 				p.sendMessage(ChatColor.BLUE + "/mtid remove <speler>");
-				p.sendMessage(ChatColor.BLUE + "/mtid list");
 				return false;
 			}
 			if(args[0].equalsIgnoreCase("maak")) {
 				if(args.length < 5 || args.length > 6) {
-					p.sendMessage(ChatColor.RED + "Je hebt het commando onjuist gebruikt");
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.foutgebruik")));
 					p.sendMessage(ChatColor.BLUE + "/mtid maak <speler> <leeftijd> <geslacht> <stad> <datum>");
 					return false;
 				}
 				
 				if(!p.hasPermission("idbewijs.maak")) {
-					p.sendMessage(ChatColor.RED + "Sorry, je hebt niet de benodigde permissies");
-					p.sendTitle(ChatColor.RED + "Error!", ChatColor.WHITE + "Je hebt niet de juiste perms!", 10, 60, 10);
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.permission")));
+					p.sendTitle(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.title")), ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.subtitle")), 10, 60, 10);
 					p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 100, 1);
 					return false;
 				}
@@ -180,35 +184,35 @@ public class Main extends JavaPlugin{
 			if(args[0].equalsIgnoreCase("remove")) {
 				ItemStack item = p.getInventory().getItemInMainHand();
 				if(p.getInventory().getItemInMainHand().getType() == Material.AIR) {
-					p.sendMessage(ChatColor.RED + "Je hebt geen ID in je hand.");
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.geenid")));
 					return false;
 				}
 				
 				if(!p.hasPermission("idbewijs.remove")) {
-					p.sendMessage(ChatColor.RED + "Sorry, je hebt niet de benodigde permissies");
-					p.sendTitle(ChatColor.RED + "Error!", ChatColor.WHITE + "Je hebt niet de juiste perms!", 10, 60, 10);
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.permission")));
+					p.sendTitle(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.title")), ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.subtitle")), 10, 60, 10);
 					p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 100, 1);
 					return false;
 				}
 				if(!item.hasItemMeta()) {
-					p.sendMessage(ChatColor.RED + "Je hebt geen ID in je hand.");
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.geenid")));
 					return false;
 				}
 				
 				ItemMeta im = item.getItemMeta();
 				if(!im.getDisplayName().contains("ID: ")) {
-					p.sendMessage(ChatColor.RED + "Je hebt geen ID in je hand.");
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.geenid")));
 					return false;
 				}
 				if(!im.getLore().contains(ChatColor.DARK_PURPLE + "Officieel Minetopia ID")) {
-					p.sendMessage(ChatColor.RED + "Je hebt geen ID in je hand.");
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.geenid")));
 					return false;
 				}
 				
 				String player = im.getDisplayName().replace("ID: ", "");
 				Player target = Bukkit.getPlayer(player);
 				if(target == null) {
-					p.sendMessage(ChatColor.RED + "Dit ID bevat geen spelerdata of is foutief.");
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.foutief")));
 					return false;
 				}
 				idm = new IdManager(this, target);
@@ -216,20 +220,20 @@ public class Main extends JavaPlugin{
 				String id = nbti.getString("identifier");
 				idm.editConfig().set("id." + id, null);
 				idm.save();
-				p.sendMessage(ChatColor.GREEN + "ID Verwijderd");
+				p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("id.verwijderd")));
 				p.getInventory().removeItem(item);
 				return false;
 			}
 			if(args[0].equalsIgnoreCase("vog")) {
 				if(args.length < 2 || args.length > 3) {
-					p.sendMessage(ChatColor.RED + "Je hebt het commando onjuist gebruikt");
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.foutgebruik")));
 					p.sendMessage(ChatColor.BLUE + "/mtid vog <speler> <positief/negatief>");
 					return false;
 				}
 				
 				if(!p.hasPermission("idbewijs.vog")) {
-					p.sendMessage(ChatColor.RED + "Sorry, je hebt niet de benodigde permissies");
-					p.sendTitle(ChatColor.RED + "Error!", ChatColor.WHITE + "Je hebt niet de juiste perms!", 10, 60, 10);
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.permission")));
+					p.sendTitle(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.title")), ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.subtitle")), 10, 60, 10);
 					p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 100, 1);
 					return false;
 				}
@@ -261,15 +265,15 @@ public class Main extends JavaPlugin{
 				
 			}
 			
-			if(args[0].equalsIgnoreCase("check")) {
+			if(args[0].equalsIgnoreCase("open")) {
 				if(args.length < 2 || args.length > 3) {
-					p.sendMessage(ChatColor.RED + "Je hebt het commando onjuist gebruikt");
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.foutgebruik")));
 					p.sendMessage(ChatColor.BLUE + "/mtid check <speler>");
 					return false;
 				}
-				if(!p.hasPermission("idbewijs.check")) {
-					p.sendMessage(ChatColor.RED + "Sorry, je hebt niet de benodigde permissies");
-					p.sendTitle(ChatColor.RED + "Error!", ChatColor.WHITE + "Je hebt niet de juiste perms!", 10, 60, 10);
+				if(!p.hasPermission("idbewijs.open")) {
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.permission")));
+					p.sendTitle(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.title")), ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.subtitle")), 10, 60, 10);
 					p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 100, 1);
 					return false;
 				}
@@ -285,13 +289,13 @@ public class Main extends JavaPlugin{
 			}
 			if(args[0].equalsIgnoreCase("vogcheck")) {
 				if(args.length < 2 || args.length > 3) {
-					p.sendMessage(ChatColor.RED + "Je hebt het commando onjuist gebruikt");
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.foutgebruik")));
 					p.sendMessage(ChatColor.BLUE + "/mtid vogcheck <speler>");
 					return false;
 				}
 				if(!p.hasPermission("idbewijs.vogcheck")) {
-					p.sendMessage(ChatColor.RED + "Sorry, je hebt niet de benodigde permissies");
-					p.sendTitle(ChatColor.RED + "Error!", ChatColor.WHITE + "Je hebt niet de juiste perms!", 10, 60, 10);
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.permission")));
+					p.sendTitle(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.title")), ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.subtitle")), 10, 60, 10);
 					p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 100, 1);
 					return false;
 				}
@@ -305,15 +309,51 @@ public class Main extends JavaPlugin{
 				ch = new CheckHandler(this);
 				ch.checkVOG(p, target);
 			}
+			if(args[0].equalsIgnoreCase("check")) {
+				if(args.length < 2 || args.length > 3) {
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.foutgebruik")));
+					p.sendMessage(ChatColor.BLUE + "/mtid check <speler>");
+					return false;
+				}
+				if(!p.hasPermission("idbewijs.check")) {
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.permission")));
+					p.sendTitle(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.title")), ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.subtitle")), 10, 60, 10);
+					p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 100, 1);
+					return false;
+				}				
+				Player target = Bukkit.getPlayer(args[1]);
+				if(target == null) {
+					p.sendMessage(ChatColor.RED + "Speler is niet gevonden.");
+					return false;
+				}
+				idm = new IdManager(this, target);
+				ItemStack item = p.getInventory().getItemInMainHand();
+				if(!item.hasItemMeta()) {
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.geenid")));
+					return false;
+				}
+				NBTItem nbti = new NBTItem(item);
+				String iduuid = nbti.getString("identifier");
+				String lastid = idm.getConfig().getString("last");
+				if(iduuid.equalsIgnoreCase(lastid)) {
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("idcheck.ok")));
+					return false;
+				}
+				if(!iduuid.equalsIgnoreCase(lastid)) {
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("idcheck.fake")));
+					return false;
+				}
+				
+			}
 			if(args[0].equalsIgnoreCase("addplot")) {
 				if(args.length < 3 || args.length > 4) {
-					p.sendMessage(ChatColor.RED + "Je hebt het commando onjuist gebruikt");
-					p.sendMessage(ChatColor.BLUE + "/mtid addplot <speler> <plot> <soort plot>");
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.foutgebruik")));
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("help.addplot")));
 					return false;
 				}
 				if(!p.hasPermission("idbewijs.addplot")) {
-					p.sendMessage(ChatColor.RED + "Sorry, je hebt niet de benodigde permissies");
-					p.sendTitle(ChatColor.RED + "Error!", ChatColor.WHITE + "Je hebt niet de juiste perms!", 10, 60, 10);
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.permission")));
+					p.sendTitle(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.title")), ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.subtitle")), 10, 60, 10);
 					p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 100, 1);
 					return false;
 				}
@@ -344,13 +384,13 @@ public class Main extends JavaPlugin{
 			}
 			if(args[0].equalsIgnoreCase("removeplot")) {
 				if(args.length < 2 || args.length > 3) {
-					p.sendMessage(ChatColor.RED + "Je hebt het commando onjuist gebruikt");
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.foutgebruik")));
 					p.sendMessage(ChatColor.BLUE + "/mtid removeplot <speler> <plot>");
 					return false;
 				}
 				if(!p.hasPermission("idbewijs.removeplot")) {
-					p.sendMessage(ChatColor.RED + "Sorry, je hebt niet de benodigde permissies");
-					p.sendTitle(ChatColor.RED + "Error!", ChatColor.WHITE + "Je hebt niet de juiste perms!", 10, 60, 10);
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.permission")));
+					p.sendTitle(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.title")), ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.subtitle")), 10, 60, 10);
 					p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 100, 1);
 					return false;
 				}
