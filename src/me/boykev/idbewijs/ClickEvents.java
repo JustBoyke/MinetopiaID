@@ -34,7 +34,13 @@ public class ClickEvents implements Listener {
 	@EventHandler
 	public void onClick(PlayerInteractEvent e) {
 		if(e.getAction() == Action.RIGHT_CLICK_BLOCK|| e.getAction() == Action.RIGHT_CLICK_AIR) {
+			if(e.getItem() == null) {
+				return;
+			}
 			if(e.getItem().hasItemMeta()) {
+				if(!e.getItem().getItemMeta().hasLore()) {
+					return;
+				}
 				ItemStack i = e.getItem();
 				if(i.getItemMeta().getLore().contains(ChatColor.DARK_PURPLE + "Officieel Minetopia ID")) {
 					ItemMeta im = i.getItemMeta();
