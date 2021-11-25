@@ -346,7 +346,7 @@ public class Main extends JavaPlugin{
 				
 			}
 			if(args[0].equalsIgnoreCase("addplot")) {
-				if(args.length < 3 || args.length > 4) {
+				if(args.length < 2 || args.length > 3) {
 					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.foutgebruik")));
 					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("help.addplot")));
 					return false;
