@@ -94,6 +94,7 @@ public class Main extends JavaPlugin{
 		Player p = (Player) sender;
 		ic = new ItemConstructor(this);
 		mes = new MessageManager(this);
+		lic = new licenseInfo(this);
 		if(cmd.getName().equalsIgnoreCase("mtid")) {
 			if(args.length < 1) {
 				p.sendMessage(ChatColor.RED + "Je hebt het commando onjuist gebruikt");
@@ -106,10 +107,13 @@ public class Main extends JavaPlugin{
 				p.sendMessage(ChatColor.BLUE + "/mtid remove <speler>");
 				return false;
 			}
+			if(lic.dataInfo(p) == false) {
+				return false;
+			}
 			if(args[0].equalsIgnoreCase("maak")) {
 				if(args.length < 5 || args.length > 6) {
 					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.foutgebruik")));
-					p.sendMessage(ChatColor.BLUE + "/mtid maak <speler> <leeftijd> <geslacht> <stad> <datum>");
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("help.maak")));
 					return false;
 				}
 				
@@ -122,27 +126,27 @@ public class Main extends JavaPlugin{
 				
 				Player target = Bukkit.getPlayer(args[1]);
 				if(target == null) {
-					p.sendMessage(ChatColor.RED + "Deze speler is niet gevonden.");
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.speler_niet_gevonden")));
 					return false;
 				}
 				if(!isInt(args[2])) {
-					p.sendMessage(ChatColor.RED + "Leeftijd is onjuist gebruikt.");
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("id.geenleeftijd")));
 					return false;
 				}
 				Integer age = Integer.valueOf(args[2]);
 				if(age == null) {
-					p.sendMessage(ChatColor.RED + "Leeftijd is onjuist gebruikt.");
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("id.geenleeftijd")));
 					return false;
 				}
 				String sex = args[3];
 				String city = args[4];
 				if(city == null) {
-					p.sendMessage(ChatColor.RED + "Je hebt geen stad opgegeven");
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("id.geenstad")));
 					return false;
 				}
 				String datum = args[5];
 				if(datum == null) {
-					p.sendMessage(ChatColor.RED + "Je hebt geen datum opgegeven.");
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("id.geendatum")));
 					return false;
 				}
 				idm = new IdManager(this, target);
@@ -227,7 +231,7 @@ public class Main extends JavaPlugin{
 			if(args[0].equalsIgnoreCase("vog")) {
 				if(args.length < 2 || args.length > 3) {
 					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.foutgebruik")));
-					p.sendMessage(ChatColor.BLUE + "/mtid vog <speler> <positief/negatief>");
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("help.vog")));
 					return false;
 				}
 				
@@ -240,12 +244,12 @@ public class Main extends JavaPlugin{
 				
 				Player target = Bukkit.getPlayer(args[1]);
 				if(target == null) {
-					p.sendMessage(ChatColor.RED + "Speler is niet gevonden.");
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.speler_niet_gevonden")));
 					return false;
 				}
 				idm = new IdManager(this, target);
 				if(args[2] == null) {
-					p.sendMessage(ChatColor.RED + "Je hebt geen positief of negatief opgegeven.");
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("vog.geen_status")));
 					return false;
 				}
 				ArrayList<String> vogtype = new ArrayList<String>();
@@ -254,13 +258,13 @@ public class Main extends JavaPlugin{
 				vogtype.add("Positief");
 				vogtype.add("Negatief");
 				if(!vogtype.contains(args[2])) {
-					p.sendMessage(ChatColor.RED + "Je moet positief of negatief opgeven!");
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("vog.geen_status")));
 					return false;
 				}
 				String last = idm.getConfig().getString("last");
 				idm.editConfig().set("id." + last + ".vog", args[2]);
 				idm.save();
-				p.sendMessage(ChatColor.GREEN + "VOG Status bijgewerkt.");
+				p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("vog.bijgewerkt")));
 				return false;
 				
 			}
@@ -268,7 +272,7 @@ public class Main extends JavaPlugin{
 			if(args[0].equalsIgnoreCase("open")) {
 				if(args.length < 2 || args.length > 3) {
 					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.foutgebruik")));
-					p.sendMessage(ChatColor.BLUE + "/mtid check <speler>");
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("help.check")));
 					return false;
 				}
 				if(!p.hasPermission("idbewijs.open")) {
@@ -280,12 +284,13 @@ public class Main extends JavaPlugin{
 				
 				Player target = Bukkit.getPlayer(args[1]);
 				if(target == null) {
-					p.sendMessage(ChatColor.RED + "Speler is niet gevonden.");
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.speler_niet_gevonden")));
 					return false;
 				}
 				//open handler check
 				ch = new CheckHandler(this);
 				ch.checkID(p, target);
+				return false;
 			}
 			if(args[0].equalsIgnoreCase("vogcheck")) {
 				if(args.length < 2 || args.length > 3) {
@@ -302,12 +307,13 @@ public class Main extends JavaPlugin{
 				
 				Player target = Bukkit.getPlayer(args[1]);
 				if(target == null) {
-					p.sendMessage(ChatColor.RED + "Speler is niet gevonden.");
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.speler_niet_gevonden")));
 					return false;
 				}
 				//open handler check
 				ch = new CheckHandler(this);
 				ch.checkVOG(p, target);
+				return false;
 			}
 			if(args[0].equalsIgnoreCase("check")) {
 				if(args.length < 2 || args.length > 3) {
@@ -323,7 +329,7 @@ public class Main extends JavaPlugin{
 				}				
 				Player target = Bukkit.getPlayer(args[1]);
 				if(target == null) {
-					p.sendMessage(ChatColor.RED + "Speler is niet gevonden.");
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.speler_niet_gevonden")));
 					return false;
 				}
 				idm = new IdManager(this, target);
@@ -343,7 +349,7 @@ public class Main extends JavaPlugin{
 					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("idcheck.fake")));
 					return false;
 				}
-				
+				return false;
 			}
 			if(args[0].equalsIgnoreCase("addplot")) {
 				if(args.length < 2 || args.length > 3) {
@@ -359,33 +365,34 @@ public class Main extends JavaPlugin{
 				}
 				Player target = Bukkit.getPlayer(args[1]);
 				if(target == null) {
-					p.sendMessage(ChatColor.RED + "Speler is niet gevonden.");
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.speler_niet_gevonden")));
 					return false;
 				}
 				idm = new IdManager(this, target);
 				String plotnr = args[2];
 				if(plotnr == null) {
-					p.sendMessage(ChatColor.RED + "Je hebt geen plot opgegeven");
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.geenplot")));
 					return false;
 				}
 				if(idm.getConfig().getConfigurationSection("plots." + plotnr) != null) {
-					p.sendMessage(ChatColor.RED + "Dit plot staat al op naam van deze speler!");
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.plot_bestaat_al")));
 					return false;
 				}
 				String plotinfo = args[3];
 				if(plotinfo == null) {
-					p.sendMessage(ChatColor.RED + "Je hebt geen plot type opgegeven");
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.geenplottype")));
 					return false;
 				}
 				idm.editConfig().set("plots." + plotnr + ".plot", plotnr);
 				idm.editConfig().set("plots." + plotnr + ".type", plotinfo);
 				idm.save();
-				p.sendMessage(ChatColor.GREEN + "Plot toegevoegd aan speler.");
+				p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("plots.toegevoegd")));
+				return false;
 			}
 			if(args[0].equalsIgnoreCase("removeplot")) {
 				if(args.length < 2 || args.length > 3) {
 					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.foutgebruik")));
-					p.sendMessage(ChatColor.BLUE + "/mtid removeplot <speler> <plot>");
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("help.removeplot")));
 					return false;
 				}
 				if(!p.hasPermission("idbewijs.removeplot")) {
@@ -396,24 +403,34 @@ public class Main extends JavaPlugin{
 				}
 				Player target = Bukkit.getPlayer(args[1]);
 				if(target == null) {
-					p.sendMessage(ChatColor.RED + "Speler is niet gevonden.");
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.speler_niet_gevonden")));
 					return false;
 				}
 				idm = new IdManager(this, target);
 				String plotnr = args[2];
 				if(plotnr == null) {
-					p.sendMessage(ChatColor.RED + "Je hebt geen plot opgegeven");
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.geenplot")));
 					return false;
 				}
 				if(idm.getConfig().getConfigurationSection("plots." + plotnr) == null) {
-					p.sendMessage(ChatColor.RED + "Deze speler heeft dit plot niet in zijn lijst staan!");
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.geenplots")));
 					return false;
 				}
 				
 				idm.editConfig().set("plots." + plotnr, null);
 				idm.save();
-				p.sendMessage(ChatColor.RED + "Plot verwijderd van speler.");
+				p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("plots.verwijderd")));
+				return false;
 			}
+			p.sendMessage(ChatColor.RED + "Je hebt het commando onjuist gebruikt");
+			p.sendMessage(ChatColor.BLUE + "/mtid maak <speler> <leeftijd> <geslacht> <stad> <datum>");
+			p.sendMessage(ChatColor.BLUE + "/mtid addplot <speler> <plot> <soort plot>");
+			p.sendMessage(ChatColor.BLUE + "/mtid check <Speler>");
+			p.sendMessage(ChatColor.BLUE + "/mtid open <Speler>");
+			p.sendMessage(ChatColor.BLUE + "/mtid vogcheck <Speler>");
+			p.sendMessage(ChatColor.BLUE + "/mtid VOG <speler> <Postitief/Negatief>");
+			p.sendMessage(ChatColor.BLUE + "/mtid remove <speler>");
+			return false;
 			
 		}
 		

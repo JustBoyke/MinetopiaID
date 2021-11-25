@@ -55,6 +55,25 @@ public void LoadDefaults() {
     config.addDefault("help.maak", ChatColor.RED + "Dit ID is fake of niet het nieuwste ID van de speler.");
     config.addDefault("help.addplot", ChatColor.BLUE + "/mtid addplot <speler> <plot> <soort plot>");
     
+    config.addDefault("help.removeplot", ChatColor.BLUE + "/mtid removeplot <speler> <plot>");
+    config.addDefault("error.geenplot", ChatColor.RED + "Je hebt geen plot opgegeven");
+    config.addDefault("error.speler_niet_gevonden", ChatColor.RED + "Speler is niet gevonden.");
+    config.addDefault("error.geenplots", ChatColor.RED + "Deze speler heeft dit plot niet in zijn lijst staan!");
+    config.addDefault("plots.verwijderd", ChatColor.RED + "Plot verwijderd van speler.");
+    config.addDefault("plots.toegevoegd", ChatColor.GREEN + "Plot toegevoegd aan speler.");
+    config.addDefault("error.plot_bestaat_al", ChatColor.RED + "Dit plot staat al op naam van deze speler!");
+    config.addDefault("error.geenplottype", ChatColor.RED + "Je hebt geen plot type opgegeven");
+    
+    config.addDefault("vog.bijgewerkt", ChatColor.GREEN + "VOG Status bijgewerkt.");
+    config.addDefault("vog.geen_status", ChatColor.RED + "Je moet positief of negatief opgeven!");
+    config.addDefault("help.vog", ChatColor.BLUE + "/mtid vog <speler> <positief/negatief>");
+    
+    config.addDefault("id.geenleeftijd", ChatColor.RED + "Leeftijd is onjuist gebruikt.");
+    config.addDefault("id.geenstad", ChatColor.RED + "Je hebt geen stad opgegeven.");
+    config.addDefault("id.geendatum", ChatColor.RED + "Je hebt geen datum opgegeven.");
+    config.addDefault("help.maak", ChatColor.BLUE + "/mtid maak <speler> <leeftijd> <geslacht> <stad> <datum>");
+    config.addDefault("help.check", ChatColor.BLUE + "/mtid check <speler>");
+    
     config.options().copyDefaults(true);
     save();
 	
