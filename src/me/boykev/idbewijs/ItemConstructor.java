@@ -3,7 +3,7 @@ package me.boykev.idbewijs;
 import java.util.ArrayList;
 
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
@@ -21,8 +21,8 @@ public class ItemConstructor {
 	}
 	
 	
-	public ItemStack maakIDItem(Player p){
-		idm = new IdManager(instance, p);
+	public ItemStack maakIDItem(OfflinePlayer p){
+		idm = new IdManager(instance, p.getUniqueId());
 		ItemStack i = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
 		SkullMeta im = (SkullMeta) i.getItemMeta();
 		im.setDisplayName(ChatColor.GREEN + "ID Bewijs");

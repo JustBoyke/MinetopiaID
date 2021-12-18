@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -22,9 +23,9 @@ public class PlotsMenu {
 	}
 	
 	
-	public void plotMenu(Player p, Player target) {
+	public void plotMenu(Player p, OfflinePlayer target) {
 		Inventory plots = Bukkit.createInventory(null, 54, ChatColor.GREEN + "PLOTS: " + target.getName());
-		idm = new IdManager(instance, target);
+		idm = new IdManager(instance, target.getUniqueId());
 		
 		if(idm.getConfig().getConfigurationSection("plots") == null) {
 			p.sendMessage(ChatColor.RED + "Er staan geen plots op deze inschrijving!");

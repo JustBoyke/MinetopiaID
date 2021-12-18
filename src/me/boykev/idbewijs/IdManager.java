@@ -4,19 +4,19 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 
 public class IdManager
 {
   private File configFile;
   private FileConfiguration config;
   
-  public IdManager(Main basement, Player p)
+  public IdManager(Main basement, UUID p)
   {
-    this.configFile = new File(basement.getDataFolder() + File.separator + "users", p.getUniqueId().toString() + ".yml");
+    this.configFile = new File(basement.getDataFolder() + File.separator + "users", p.toString() + ".yml");
     this.config = YamlConfiguration.loadConfiguration(this.configFile);
   }
   

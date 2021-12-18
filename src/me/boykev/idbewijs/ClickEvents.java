@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -45,12 +46,13 @@ public class ClickEvents implements Listener {
 				if(i.getItemMeta().getLore().contains(ChatColor.DARK_PURPLE + "Officieel Minetopia ID")) {
 					ItemMeta im = i.getItemMeta();
 					String player = im.getDisplayName().replace("ID: ", "");
-					Player p = Bukkit.getPlayer(player);
+					@SuppressWarnings("deprecation")
+					OfflinePlayer p = Bukkit.getOfflinePlayer(player);
 					if(p == null) {
-						e.getPlayer().sendMessage(ChatColor.RED + "Dit ID werkt niet of is onjuist gemaakt!");
+						e.getPlayer().sendMessage(ChatColor.RED + "Dit ID werkt niet of is onjuist gemaakt!" + p);
 						return;
 					}
-					idm = new IdManager(instance, p);
+					idm = new IdManager(instance, p.getUniqueId());
 					String last = idm.getConfig().getString("last");
 					NBTItem nbti = new NBTItem(i);
 					String id = nbti.getString("identifier");
@@ -60,7 +62,7 @@ public class ClickEvents implements Listener {
 					Inventory idbewijs = Bukkit.createInventory(null, 27, ChatColor.GREEN + "ID: " + p.getName());
 					
 					
-					if(idm.getConfig().getString("id." + last + ".vog") == null) {
+					if(idm.getConfig().getString("id." + id + ".vog") == null) {
 						ItemStack vogitem = new ItemStack(Material.BARRIER);
 						ItemMeta vogmeta = vogitem.getItemMeta();
 						vogmeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES);
@@ -71,8 +73,8 @@ public class ClickEvents implements Listener {
 						vogitem.setItemMeta(vogmeta);
 						idbewijs.setItem(10, vogitem);
 					}
-					if(idm.getConfig().getString("id." + last + ".vog") != null) {
-						String vogstatus = idm.getConfig().getString("id." + last + ".vog");
+					if(idm.getConfig().getString("id." + id + ".vog") != null) {
+						String vogstatus = idm.getConfig().getString("id." + id + ".vog");
 						if(vogstatus.equalsIgnoreCase("negatief")) {
 							ItemStack vogitem = new ItemStack(Material.PAPER);
 							ItemMeta vogmeta = vogitem.getItemMeta();
@@ -152,6 +154,7 @@ public class ClickEvents implements Listener {
 	}
 	
 	
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onInventory(InventoryClickEvent e) {
 		String inv = e.getInventory().getName();
@@ -162,10 +165,10 @@ public class ClickEvents implements Listener {
 			e.setCancelled(true);
 			if(e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.BLUE + "Plots")) {
 				String speler = inv.replace(ChatColor.GREEN + "ID CHECK: ", "");
-				if(Bukkit.getPlayer(speler) == null) {
+				if(Bukkit.getOfflinePlayer(speler) == null) {
 					return;
 				}
-				plots.plotMenu(p, Bukkit.getPlayer(speler));
+				plots.plotMenu(p, Bukkit.getOfflinePlayer(speler));
 			}
 		}
 		if(inv.contains(ChatColor.GREEN + "ID: ")) {
@@ -173,10 +176,10 @@ public class ClickEvents implements Listener {
 			e.setCancelled(true);
 			if(e.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.BLUE + "Plots")) {
 				String speler = inv.replace(ChatColor.GREEN + "ID: ", "");
-				if(Bukkit.getPlayer(speler) == null) {
+				if(Bukkit.getOfflinePlayer(speler) == null) {
 					return;
 				}
-				plots.plotMenu(p, Bukkit.getPlayer(speler));
+				plots.plotMenu(p, Bukkit.getOfflinePlayer(speler));
 			}
 		}
 		if(inv.contains(ChatColor.GREEN + "PLOTS: ")) {

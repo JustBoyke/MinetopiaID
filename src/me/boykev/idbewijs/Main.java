@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -90,6 +91,7 @@ public class Main extends JavaPlugin{
 	}
 	
 	
+	@SuppressWarnings("deprecation")
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		Player p = (Player) sender;
 		ic = new ItemConstructor(this);
@@ -124,7 +126,7 @@ public class Main extends JavaPlugin{
 					return false;
 				}
 				
-				Player target = Bukkit.getPlayer(args[1]);
+				OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
 				if(target == null) {
 					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.speler_niet_gevonden")));
 					return false;
@@ -149,7 +151,7 @@ public class Main extends JavaPlugin{
 					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("id.geendatum")));
 					return false;
 				}
-				idm = new IdManager(this, target);
+				idm = new IdManager(this, target.getUniqueId());
 				
 				File configFile = new File(this.getDataFolder() + File.separator + "users", target.getUniqueId().toString() + ".yml");
 				if(!configFile.exists()) {
@@ -214,12 +216,12 @@ public class Main extends JavaPlugin{
 				}
 				
 				String player = im.getDisplayName().replace("ID: ", "");
-				Player target = Bukkit.getPlayer(player);
+				OfflinePlayer target = Bukkit.getOfflinePlayer(player);
 				if(target == null) {
 					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.foutief")));
 					return false;
 				}
-				idm = new IdManager(this, target);
+				idm = new IdManager(this, target.getUniqueId());
 				NBTItem nbti = new NBTItem(item);
 				String id = nbti.getString("identifier");
 				idm.editConfig().set("id." + id, null);
@@ -242,12 +244,12 @@ public class Main extends JavaPlugin{
 					return false;
 				}
 				
-				Player target = Bukkit.getPlayer(args[1]);
+				OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
 				if(target == null) {
 					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.speler_niet_gevonden")));
 					return false;
 				}
-				idm = new IdManager(this, target);
+				idm = new IdManager(this, target.getUniqueId());
 				if(args[2] == null) {
 					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("vog.geen_status")));
 					return false;
@@ -282,7 +284,8 @@ public class Main extends JavaPlugin{
 					return false;
 				}
 				
-				Player target = Bukkit.getPlayer(args[1]);
+				OfflinePlayer of = Bukkit.getOfflinePlayer(args[1]);
+				Player target = of.getPlayer();
 				if(target == null) {
 					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.speler_niet_gevonden")));
 					return false;
@@ -305,7 +308,8 @@ public class Main extends JavaPlugin{
 					return false;
 				}
 				
-				Player target = Bukkit.getPlayer(args[1]);
+				OfflinePlayer of = Bukkit.getOfflinePlayer(args[1]);
+				Player target = of.getPlayer();
 				if(target == null) {
 					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.speler_niet_gevonden")));
 					return false;
@@ -327,12 +331,12 @@ public class Main extends JavaPlugin{
 					p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 100, 1);
 					return false;
 				}				
-				Player target = Bukkit.getPlayer(args[1]);
+				OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
 				if(target == null) {
 					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.speler_niet_gevonden")));
 					return false;
 				}
-				idm = new IdManager(this, target);
+				idm = new IdManager(this, target.getUniqueId());
 				ItemStack item = p.getInventory().getItemInMainHand();
 				if(!item.hasItemMeta()) {
 					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.geenid")));
@@ -342,7 +346,7 @@ public class Main extends JavaPlugin{
 				String iduuid = nbti.getString("identifier");
 				String lastid = idm.getConfig().getString("last");
 				if(iduuid.equalsIgnoreCase(lastid)) {
-					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("idcheck.ok")));
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("idcheck.oke")));
 					return false;
 				}
 				if(!iduuid.equalsIgnoreCase(lastid)) {
@@ -363,12 +367,12 @@ public class Main extends JavaPlugin{
 					p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 100, 1);
 					return false;
 				}
-				Player target = Bukkit.getPlayer(args[1]);
+				OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
 				if(target == null) {
 					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.speler_niet_gevonden")));
 					return false;
 				}
-				idm = new IdManager(this, target);
+				idm = new IdManager(this, target.getUniqueId());
 				String plotnr = args[2];
 				if(plotnr == null) {
 					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.geenplot")));
@@ -401,12 +405,12 @@ public class Main extends JavaPlugin{
 					p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 100, 1);
 					return false;
 				}
-				Player target = Bukkit.getPlayer(args[1]);
+				OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
 				if(target == null) {
 					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.speler_niet_gevonden")));
 					return false;
 				}
-				idm = new IdManager(this, target);
+				idm = new IdManager(this, target.getUniqueId());
 				String plotnr = args[2];
 				if(plotnr == null) {
 					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.geenplot")));

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -25,8 +26,8 @@ public class CheckHandler {
 		this.instance = main;
 	}
 	
-	public void checkID(Player p, Player target) {
-		idm = new IdManager(instance, target);
+	public void checkID(Player p, OfflinePlayer target) {
+		idm = new IdManager(instance, target.getUniqueId());
 		String last = idm.getConfig().getString("last");
 		
 		if(idm.getConfig().getString("id." + last) == null) {
@@ -121,8 +122,8 @@ public class CheckHandler {
 	}
 	
 	
-	public void checkVOG(Player p, Player target) {
-		idm = new IdManager(instance, target);
+	public void checkVOG(Player p, OfflinePlayer target) {
+		idm = new IdManager(instance, target.getUniqueId());
 		String last = idm.getConfig().getString("last");
 		
 		if(idm.getConfig().getString("id." + last) == null) {
