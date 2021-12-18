@@ -284,8 +284,7 @@ public class Main extends JavaPlugin{
 					return false;
 				}
 				
-				OfflinePlayer of = Bukkit.getOfflinePlayer(args[1]);
-				Player target = of.getPlayer();
+				OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
 				if(target == null) {
 					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.speler_niet_gevonden")));
 					return false;
@@ -308,8 +307,7 @@ public class Main extends JavaPlugin{
 					return false;
 				}
 				
-				OfflinePlayer of = Bukkit.getOfflinePlayer(args[1]);
-				Player target = of.getPlayer();
+				OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
 				if(target == null) {
 					p.sendMessage(ChatColor.translateAlternateColorCodes('&', mes.getConfig().getString("error.speler_niet_gevonden")));
 					return false;
