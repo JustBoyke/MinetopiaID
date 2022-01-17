@@ -47,7 +47,7 @@ public class PlotsMenu {
 					i.setItemMeta(im);
 					plots.setItem(slot, i);
 				}
-				if(plotinfo.equalsIgnoreCase("winkel")) {
+				else if(plotinfo.equalsIgnoreCase("winkel")) {
 					ItemStack i = new ItemStack(Material.SPRUCE_FENCE);
 					ItemMeta im = i.getItemMeta();
 					im.setDisplayName(ChatColor.BLUE + plotnr);
@@ -58,7 +58,7 @@ public class PlotsMenu {
 					i.setItemMeta(im);
 					plots.setItem(slot, i);
 				}
-				if(plotinfo.equalsIgnoreCase("fabriek")) {
+				else if(plotinfo.equalsIgnoreCase("fabriek")) {
 					ItemStack i = new ItemStack(Material.BRICK);
 					ItemMeta im = i.getItemMeta();
 					im.setDisplayName(ChatColor.BLUE + plotnr);
@@ -69,7 +69,7 @@ public class PlotsMenu {
 					i.setItemMeta(im);
 					plots.setItem(slot, i);
 				}
-				if(!plotinfo.equalsIgnoreCase("winkel")) {
+				else{
 					ItemStack i = new ItemStack(Material.BIRCH_DOOR_ITEM);
 					ItemMeta im = i.getItemMeta();
 					im.setDisplayName(ChatColor.BLUE + plotnr);
