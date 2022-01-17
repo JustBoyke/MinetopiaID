@@ -48,7 +48,18 @@ public class PlotsMenu {
 					plots.setItem(slot, i);
 				}
 				if(plotinfo.equalsIgnoreCase("winkel")) {
-					ItemStack i = new ItemStack(Material.ACACIA_DOOR_ITEM);
+					ItemStack i = new ItemStack(Material.SPRUCE_FENCE);
+					ItemMeta im = i.getItemMeta();
+					im.setDisplayName(ChatColor.BLUE + plotnr);
+					ArrayList<String> lore = new ArrayList<String>();
+					lore.add(ChatColor.DARK_PURPLE + "Plot: " + plotnr);
+					lore.add(ChatColor.DARK_PURPLE + "Type: " + plotinfo);
+					im.setLore(lore);
+					i.setItemMeta(im);
+					plots.setItem(slot, i);
+				}
+				if(plotinfo.equalsIgnoreCase("fabriek")) {
+					ItemStack i = new ItemStack(Material.BRICK);
 					ItemMeta im = i.getItemMeta();
 					im.setDisplayName(ChatColor.BLUE + plotnr);
 					ArrayList<String> lore = new ArrayList<String>();
