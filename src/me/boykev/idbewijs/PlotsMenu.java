@@ -37,7 +37,7 @@ public class PlotsMenu {
 				String plotinfo = idm.getConfig().getString("plots." + s + ".type");
 				
 				if(plotinfo.equalsIgnoreCase("huis")) {
-					ItemStack i = new ItemStack(Material.BIRCH_DOOR_ITEM);
+					ItemStack i = new ItemStack(Material.BIRCH_DOOR);
 					ItemMeta im = i.getItemMeta();
 					im.setDisplayName(ChatColor.BLUE + plotnr);
 					ArrayList<String> lore = new ArrayList<String>();
@@ -70,7 +70,7 @@ public class PlotsMenu {
 					plots.setItem(slot, i);
 				}
 				else{
-					ItemStack i = new ItemStack(Material.BIRCH_DOOR_ITEM);
+					ItemStack i = new ItemStack(Material.BIRCH_DOOR);
 					ItemMeta im = i.getItemMeta();
 					im.setDisplayName(ChatColor.BLUE + plotnr);
 					ArrayList<String> lore = new ArrayList<String>();

@@ -23,7 +23,7 @@ public class ItemConstructor {
 	
 	public ItemStack maakIDItem(OfflinePlayer p){
 		idm = new IdManager(instance, p.getUniqueId());
-		ItemStack i = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+		ItemStack i = new ItemStack(Material.PLAYER_HEAD, 1);
 		SkullMeta im = (SkullMeta) i.getItemMeta();
 		im.setDisplayName(ChatColor.GREEN + "ID Bewijs");
 		ArrayList<String> lore = new ArrayList<String>();

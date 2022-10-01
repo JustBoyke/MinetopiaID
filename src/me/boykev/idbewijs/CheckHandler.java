@@ -92,7 +92,7 @@ public class CheckHandler {
 		}
 		
 		
-		ItemStack fill = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15);
+		ItemStack fill = new ItemStack(Material.BLACK_STAINED_GLASS_PANE, (short) 15);
 		ItemMeta fillm = fill.getItemMeta();
 		fillm.setDisplayName(ChatColor.BLACK + "");
 		fill.setItemMeta(fillm);
@@ -103,7 +103,7 @@ public class CheckHandler {
 			idbewijs.setItem(slot, fill);
 		}
 		
-		ItemStack ploti = new ItemStack(Material.BIRCH_DOOR_ITEM);
+		ItemStack ploti = new ItemStack(Material.BIRCH_DOOR);
 		ItemMeta plotme = ploti.getItemMeta();
 		plotme.setDisplayName(ChatColor.BLUE + "Plots");
 		ArrayList<String> plotlore = new ArrayList<String>();
@@ -134,7 +134,7 @@ public class CheckHandler {
 		Inventory vogcheck1 = Bukkit.createInventory(null, 9, ChatColor.RED + "VOG Data laden...");
 		Inventory vogcheck2 = Bukkit.createInventory(null, 9, ChatColor.GREEN + "VOG: " + target.getName());
 		
-		ItemStack fill = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15);
+		ItemStack fill = new ItemStack(Material.BLACK_STAINED_GLASS_PANE, 1);
 		ItemMeta fillm = fill.getItemMeta();
 		fillm.setDisplayName(ChatColor.RED + "Laden...");
 		ArrayList<String> fillmlore = new ArrayList<String>();
@@ -187,7 +187,7 @@ public class CheckHandler {
 				vogcheck2.setItem(4, vogitem);
 			}
 		}
-			ItemStack fill2 = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15);
+			ItemStack fill2 = new ItemStack(Material.BLACK_STAINED_GLASS_PANE, 1);
 			ItemMeta fillm2 = fill.getItemMeta();
 			fillm2.setDisplayName(ChatColor.BLACK + "");
 			fill2.setItemMeta(fillm2);

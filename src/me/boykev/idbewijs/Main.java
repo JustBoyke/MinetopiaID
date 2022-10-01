@@ -439,7 +439,7 @@ public class Main extends JavaPlugin{
 		if(cmd.getName().equalsIgnoreCase("minetopiaid")) {
 			if(args.length > 0) {
 				if(args[0].equalsIgnoreCase("pling")) {
-					p.playSound(p.getLocation(), Sound.BLOCK_NOTE_HARP, 100F, 0.3F);
+					p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 100F, 0.3F);
 					return false;
 				}
 			}

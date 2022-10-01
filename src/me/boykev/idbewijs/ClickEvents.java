@@ -107,7 +107,7 @@ public class ClickEvents implements Listener {
 					
 					if(!last.equalsIgnoreCase(id)) {
 						e.getPlayer().sendMessage(ChatColor.RED + "Dit is niet de meest actuele ID!");
-						ItemStack fill = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 14);
+						ItemStack fill = new ItemStack(Material.RED_STAINED_GLASS_PANE, 1);
 						ItemMeta fillm = fill.getItemMeta();
 						fillm.setDisplayName(ChatColor.BLACK + "");
 						fill.setItemMeta(fillm);
@@ -119,7 +119,7 @@ public class ClickEvents implements Listener {
 						}
 					}
 					if(last.equalsIgnoreCase(id)) {
-						ItemStack fill = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 5);
+						ItemStack fill = new ItemStack(Material.LIME_STAINED_GLASS_PANE, 1);
 						ItemMeta fillm = fill.getItemMeta();
 						fillm.setDisplayName(ChatColor.BLACK + "");
 						fill.setItemMeta(fillm);
@@ -131,7 +131,7 @@ public class ClickEvents implements Listener {
 						}
 					}
 					
-					ItemStack ploti = new ItemStack(Material.BIRCH_DOOR_ITEM);
+					ItemStack ploti = new ItemStack(Material.BIRCH_DOOR);
 					ItemMeta plotme = ploti.getItemMeta();
 					plotme.setDisplayName(ChatColor.BLUE + "Plots");
 					ArrayList<String> plotlore = new ArrayList<String>();
@@ -157,7 +157,7 @@ public class ClickEvents implements Listener {
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onInventory(InventoryClickEvent e) {
-		String inv = e.getInventory().getName();
+		String inv = e.getView().getTitle();
 		cm = new ConfigManager(instance);
 		Player p = (Player) e.getWhoClicked();
 		if(inv.contains(ChatColor.GREEN + "ID CHECK:")) {
