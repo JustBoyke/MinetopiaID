@@ -3,6 +3,7 @@ package me.boykev.idbewijs;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -10,7 +11,6 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.libs.jline.internal.Log;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
@@ -39,6 +39,7 @@ public class Main extends JavaPlugin{
 	
 	
 	public void onEnable() {
+		Logger Log = Bukkit.getLogger();
 		Log.info("Staat aan");
 		PluginDescriptionFile pdf = this.getDescription();
 		PluginManager pm = Bukkit.getServer().getPluginManager();
